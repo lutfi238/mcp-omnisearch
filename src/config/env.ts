@@ -14,6 +14,8 @@ export const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY;
 export const JINA_AI_API_KEY = process.env.JINA_AI_API_KEY;
 export const FIRECRAWL_API_KEY = process.env.FIRECRAWL_API_KEY;
 export const FIRECRAWL_BASE_URL = process.env.FIRECRAWL_BASE_URL;
+export const JINA_GROUNDING_ENABLED =
+	process.env.JINA_GROUNDING_ENABLED === 'true';
 
 // Provider configuration
 export const config = {
@@ -132,6 +134,7 @@ export const config = {
 		jina_grounding: {
 			api_key: JINA_AI_API_KEY,
 			base_url: 'https://g.jina.ai/',
+			enabled: JINA_GROUNDING_ENABLED,
 			timeout: 20000, // 20 seconds
 		},
 	},

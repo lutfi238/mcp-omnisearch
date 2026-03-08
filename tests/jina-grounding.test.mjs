@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import test from 'node:test';
-import { pathToFileURL } from 'node:url';
 
 const importFresh = async (relativePath) => {
 	const url = new URL(
@@ -74,3 +74,46 @@ test('Jina grounding uses configured endpoint and JSON accept header', async () 
 		globalThis.fetch = originalFetch;
 	}
 });
+
+test('Jina grounding is disabled by default even when a key is present', async () => {
+	const script = `
+		const { initialize_providers } = await import(${JSON.stringify(
+			pathToDistModule('providers/index.js'),
+		)});
+		const { available_providers } = await import(${JSON.stringify(
+			pathToDistModule('server/tools.js'),
+		)});
+		initialize_providers();
+		console.log(JSON.stringify(Array.from(available_providers.enhancement)));
+	`;
+
+	const result = spawnSync(
+		process.execPath,
+		['--input-type=module', '--eval', script],
+		{
+			cwd: process.cwd(),
+			env: {
+				...process.env,
+				BRAVE_API_KEY: '',
+				FIRECRAWL_API_KEY: 'test-key',
+				EXA_API_KEY: 'test-key',
+				GITHUB_API_KEY: 'test-key',
+				JINA_AI_API_KEY: 'test-key',
+				JINA_GROUNDING_ENABLED: '',
+				KAGI_API_KEY: '',
+				PERPLEXITY_API_KEY: '',
+				TAVILY_API_KEY: 'test-key',
+			},
+			encoding: 'utf8',
+		},
+	);
+
+	assert.equal(result.status, 0, result.stderr);
+
+	const providers = JSON.parse(result.stdout.trim());
+	assert.deepEqual(providers, []);
+});
+
+function pathToDistModule(relativePath) {
+	return new URL(`../dist/${relativePath}`, import.meta.url).href;
+}

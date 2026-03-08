@@ -124,6 +124,7 @@ export const initialize_providers = () => {
 
 	// Initialize enhancement providers
 	if (
+		config.enhancement.jina_grounding.enabled &&
 		is_api_key_valid(
 			config.enhancement.jina_grounding.api_key,
 			'jina_grounding',
