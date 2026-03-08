@@ -131,7 +131,7 @@ export const config = {
 		},
 		jina_grounding: {
 			api_key: JINA_AI_API_KEY,
-			base_url: 'https://api.jina.ai/v1/ground',
+			base_url: 'https://g.jina.ai/',
 			timeout: 20000, // 20 seconds
 		},
 	},

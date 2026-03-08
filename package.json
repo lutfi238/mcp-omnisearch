@@ -15,11 +15,12 @@
 		"LICENSE"
 	],
 	"scripts": {
-		"build": "tsc && chmod +x dist/index.js",
+		"build": "tsc && node -e \"require('node:fs').chmodSync('dist/index.js', 0o755)\"",
 		"start": "node dist/index.js",
 		"dev": "npx @modelcontextprotocol/inspector dist/index.js",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
+		"test": "node --test tests/**/*.test.mjs",
 		"changeset": "changeset",
 		"version": "changeset version",
 		"release": "pnpm run build && changeset publish",

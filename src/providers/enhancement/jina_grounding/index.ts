@@ -45,10 +45,11 @@ export class JinaGroundingProvider implements EnhancementProvider {
 			try {
 				const data = await http_json<JinaGroundingResponse>(
 					this.name,
-					'https://g.jina.ai',
+					config.enhancement.jina_grounding.base_url,
 					{
 						method: 'POST',
 						headers: {
+							Accept: 'application/json',
 							'Content-Type': 'application/json',
 							Authorization: `Bearer ${api_key}`,
 						},
